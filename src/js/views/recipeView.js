@@ -87,16 +87,6 @@ export const renderRecipe = recipe => {
         <div class="recipe__ingredients">
             <ul class="recipe__ingredient-list">
                 ${/*convert the array into string*/recipe.ingredients.map(el => createIngredient(el)).join('')}
-                <li class="recipe__item">
-                    <svg class="recipe__icon">
-                        <use href="img/icons.svg#icon-check"></use>
-                    </svg>
-                    <div class="recipe__count">1000</div>
-                    <div class="recipe__ingredient">
-                        <span class="recipe__unit">g</span>
-                        pasta
-                    </div>
-                </li>
             </ul>
 
             <button class="btn-small recipe__btn">
@@ -133,6 +123,7 @@ export const updateServingsIngredients = recipe => {
     // Update ingredeints
     const countElements = Array.from(document.querySelectorAll('.recipe__count'));
     countElements.forEach((el, i) => {
+        //TODO: count is undefined!!!
         el.textContent = formatCount(recipe.ingredients[i].count);
     });
 };
