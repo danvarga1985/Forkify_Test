@@ -16,7 +16,6 @@ import { elements, renderLoader, clearLoader } from './views/base';
  */
 
 const state = {};
-window.state = state;
 
 //SEARCH CONTROLLER
 const controlSearch = async() => {
@@ -66,7 +65,6 @@ elements.searchResPages.addEventListener('click', e => {
 const controlRecipe = async () => {
     //Get ID from the url
     const id = window.location.hash.replace('#', '');
-    console.log(id);
 
     if (id) {
         //Prepare the UI for changes
@@ -96,7 +94,6 @@ const controlRecipe = async () => {
 
         } catch (error) {
             alert(error);
-            console.log(error);
         }
     }
 };
@@ -167,6 +164,20 @@ const controlLike = () => {
 //Eventlistener for multiple events
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
+//Restore liked recipes on page load
+window.addEventListener('load', () => {
+    state.likes = new Likes();
+    
+    //Restore likes
+    state.likes.readStorage();
+
+    //Toggle like menu button
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+
+    //Render the existing likes
+    state.likes.likes.forEach(like => likesView.renderLike(like));
+})
+
 //Handling recipe button clicks
 elements.recipe.addEventListener('click', e => {
     if (e.target.matches('.btn-decrease, .btn-decrease *')) {
@@ -186,7 +197,4 @@ elements.recipe.addEventListener('click', e => {
         //Like controller
         controlLike();
     }
-    console.log(state.recipe);
 });
-
-window.l = new List();
